@@ -1,9 +1,9 @@
-﻿namespace Eksamensopgave
+namespace Eksamensopgave
 {
     class Product
     {
         private static int _id = 1;
-        public Product(string name, string price)
+        public Product(string name, decimal price)
         {
             Name = name;
             Price = price;
@@ -11,7 +11,7 @@
         }
         public int ID { get; } = _id;
         public string Name { get; private set; }
-        public string Price { get; set; }
+        public decimal Price { get; set; }
         public bool Active { get; set; } = true;
         public bool CanBeBoughtOnCredit { get; set; } = false;
         public override string ToString()

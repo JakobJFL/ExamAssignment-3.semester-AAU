@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -57,7 +57,7 @@ namespace Eksamensopgave
         }
 
         //Kilde: https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
-        bool IsValidEmail(string email) 
+        private bool IsValidEmail(string email) 
         {
             if (email.Trim().EndsWith(".") || email.Trim().EndsWith("-"))
             {
@@ -79,7 +79,7 @@ namespace Eksamensopgave
             return ID.CompareTo(obj);
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (((User)obj).ID != ID) //(obj == null) || !this.GetType().Equals(obj.GetType()) || this.Equals(obj)
             {
