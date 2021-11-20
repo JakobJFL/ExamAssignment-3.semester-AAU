@@ -90,7 +90,7 @@ namespace Eksamensopgave
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return ID.GetHashCode();
         }
     }
 }

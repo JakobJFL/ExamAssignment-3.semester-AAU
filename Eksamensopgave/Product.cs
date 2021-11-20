@@ -1,5 +1,9 @@
 namespace Eksamensopgave
 {
+    class ProductFactory
+    {
+        
+    }
     class Product
     {
         private static int _id = 1;
@@ -12,7 +16,7 @@ namespace Eksamensopgave
         public int ID { get; } = _id;
         public string Name { get; private set; }
         public decimal Price { get; set; }
-        public bool Active { get; set; } = true;
+        public virtual bool Active { get; set; } = true;
         public bool CanBeBoughtOnCredit { get; set; } = false;
         public override string ToString()
         {

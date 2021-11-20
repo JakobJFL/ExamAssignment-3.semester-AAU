@@ -22,7 +22,7 @@ namespace Eksamensopgave
 
         public Product GetProductByID(int id)
         {
-            return ActiveProducts.First(p => p.ID == id);
+            return ActiveProducts.FirstOrDefault(p => p.ID == id) ?? throw new ;
         }
 
         public IEnumerable<ITransaction> GetTransactions(User user, int count)
