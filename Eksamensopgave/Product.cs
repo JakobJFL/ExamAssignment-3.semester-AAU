@@ -1,6 +1,6 @@
 namespace Eksamensopgave
 {
-    class Product
+    public class Product
     {
         private static int _id = 1;
         public Product(string name, decimal price)
