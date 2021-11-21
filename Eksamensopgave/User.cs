@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 namespace Eksamensopgave
 {
 
-    class User : IComparable
+    public class User : IComparable
     {
-        public delegate bool UserBalanceNotification(User user, decimal balance);
+        public delegate void UserBalanceNotification(User user, decimal balance);
+        public event UserBalanceNotification UserBalanceNotificationEvent;
+        //public event Action UserBalanceNotification;
 
         private static int _id = 1;
 
@@ -27,6 +29,7 @@ namespace Eksamensopgave
                 Email = email;
             else
                 throw new ValidationException("Does not live up to requirements");
+            UserBalanceNotificationEvent += NotifyUser;
             _id++;
         }
 
@@ -36,10 +39,6 @@ namespace Eksamensopgave
         public string Username { get; private set; }
         public string Email { get; set; }
         public decimal Balance { get; set; }
-        private bool ShouldNotified(User user, decimal balance)
-        {
-            return user.Balance < 50;
-        }
 
         public override string ToString()
         {
@@ -48,6 +47,11 @@ namespace Eksamensopgave
                 firstnames += fName + " ";
 
             return firstnames + Lastname + " (" + Email + ")";
+        }
+
+        private void NotifyUser(User user, decimal balance)
+        {
+
         }
 
         private bool IsUsernameValid(string username)

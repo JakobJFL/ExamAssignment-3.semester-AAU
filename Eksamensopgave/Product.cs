@@ -1,9 +1,5 @@
 namespace Eksamensopgave
 {
-    class ProductFactory
-    {
-        
-    }
     class Product
     {
         private static int _id = 1;

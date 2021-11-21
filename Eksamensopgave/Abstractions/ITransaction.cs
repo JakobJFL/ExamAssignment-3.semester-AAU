@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace Eksamensopgave
 {
-    interface ITransaction
+    public interface ITransaction
     {
         public int ID { get; }
         public User User { get; set; }
