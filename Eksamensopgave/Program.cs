@@ -5,11 +5,16 @@ namespace Eksamensopgave
 {
     class Program
     {
+        private static readonly string _usersFilePath = @"C:\Users\JFL\Documents\GitHub\ExamAssignment-3.semester-AAU\Eksamensopgave\InputData\users.csv";
+        private static readonly string _productsFilePath = @"C:\Users\JFL\Documents\GitHub\ExamAssignment-3.semester-AAU\Eksamensopgave\InputData\products.csv";
         static void Main(string[] args)
         {
-            string[] str = { "kat" };
-            User user = new User(str, "kat", "dsf_", "eksempel2@-mit_domain.dk");
-            Console.WriteLine(user.ToString());
+            IFileManager fileManager = new FileManager();
+            IStregsystem stregsystem = new Stregsystem(fileManager.LoadProducts(_productsFilePath));
+            for (int i = 1; i < 135; i++)
+            {
+                Console.WriteLine(stregsystem.GetProductByID(i));
+            }
 
         }
     }

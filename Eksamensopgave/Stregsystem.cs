@@ -6,6 +6,10 @@ namespace Eksamensopgave
 {
     class Stregsystem : IStregsystem
     {
+        public Stregsystem(IEnumerable<Product> activeProducts)
+        {
+            ActiveProducts = activeProducts;
+        }
         private readonly int _notifyUserWhenBalance = 50;
 
         public IEnumerable<Product> ActiveProducts { get; }
