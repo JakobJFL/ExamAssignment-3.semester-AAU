@@ -8,8 +8,16 @@ using System.Threading.Tasks;
 
 namespace Eksamensopgave
 {
-    public class FileManager : IFileManager
+    public partial class FileManager<T> : IFileManager<T>
     {
+        public IStreamReader Reader { get; }
+        public char SplitChar { get; }
+
+        public FileManager(IStreamReader reader, char splitChar)
+        {
+            Reader = reader;
+            SplitChar = splitChar;
+        }
         public async void LogTransection(IEnumerable<ITransaction> transactions)
         {
             string csvData = "ID;User;Amount;Date\n";
@@ -21,6 +29,20 @@ namespace Eksamensopgave
                 csvData += t.Date + ";\n";
             }
             await File.WriteAllTextAsync("LogData.csv", csvData);
+        }
+
+        public IEnumerable<T> Load(Func<string[], T> parseData)
+        {
+            List<T> result = new List<T>();
+            Reader.ReadLine(); // Skip header
+            while (!Reader.EndOfStream)
+            {
+                string line = Reader.ReadLine();
+                string[] values = line.Split(SplitChar);
+                T dataObj = parseData(values);
+                result.Add(dataObj);
+            }
+            return result;
         }
 
         public List<User> LoadUsers(string filePath)
@@ -46,26 +68,23 @@ namespace Eksamensopgave
 
         public List<Product> LoadProducts(string filePath)
         {
-            using (var reader = new StreamReader(filePath))
+            List<Product> productList = new List<Product>();
+            Reader.ReadLine();
+            while (!Reader.EndOfStream)
             {
-                List<Product> productList = new List<Product>();
-                reader.ReadLine();
-                while (!reader.EndOfStream)
+                string line = Reader.ReadLine();
+                string[] values = line.Split(';');
+                string name = values[1]
+                    .Replace("\"", "");
+                name = Regex.Replace(name, @"<\/?\w+>", "");
+                Product product = new Product(name, decimal.Parse(values[2])) // mangler at tilføje muligheden for at lave SeasonalProduct med deactivate_date.
                 {
-                    string line = reader.ReadLine();
-                    string[] values = line.Split(';');
-                    string name = values[1]
-                        .Replace("\"", "");
-                    name = Regex.Replace(name, @"<\/?\w+>", "");
-                    Product product = new Product(name, decimal.Parse(values[2])) // mangler at tilføje muligheden for at lave SeasonalProduct med deactivate_date.
-                    {
-                        Active = values[3] == "1" ? true : false
-                    };
-                    productList.Add(product);
+                    Active = values[3] == "1" ? true : false
+                };
+                productList.Add(product);
                     
-                }
-                return productList;
             }
+            return productList;
         }
     }
 }

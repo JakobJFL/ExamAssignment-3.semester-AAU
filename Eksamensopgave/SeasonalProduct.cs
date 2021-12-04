@@ -17,7 +17,7 @@ namespace Eksamensopgave
         }
         public DateTime SeasonStartDate { get; set; }
         public DateTime SeasonEndDate { get; set; }
-        public override string ToString() // Skal det her ikke også være der
+        public override string ToString() 
         {
             return "Seasonal product " + base.ToString();
         }
