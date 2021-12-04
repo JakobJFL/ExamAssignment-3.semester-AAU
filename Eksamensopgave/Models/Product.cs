@@ -1,4 +1,4 @@
-namespace Eksamensopgave
+namespace Eksamensopgave.Models
 {
     public class Product
     {
@@ -12,11 +12,11 @@ namespace Eksamensopgave
         public int ID { get; } = _id;
         public string Name { get; private set; }
         public decimal Price { get; set; }
-        public virtual bool Active { get; set; } = true;
+        public virtual bool Active { get; set; }
         public bool CanBeBoughtOnCredit { get; set; } = false;
         public override string ToString()
         {
-            return ID + " | " + Name + " | " + Price;
+            return ID + "\t| " + Name + " | " + Price + " kr.";
         }
     }
 }

@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Eksamensopgave.Models;
 
 namespace Eksamensopgave
 {
-    interface IStregsystem
+    public interface IStregsystem
     {
-        IEnumerable<Product> ActiveProducts { get; }
-        InsertCashTransaction AddCreditsToAccount(User user, int amount);
-        BuyTransaction BuyProduct(User user, Product product);
-        Product GetProductByID(int id);
-        IEnumerable<ITransaction> GetTransactions(User user, int count);
-        User GetUsers(Func<User, bool> predicate);
-        User GetUserByUsername(string username);
-        event User.UserBalanceNotification UserBalanceWarning;
+        public IEnumerable<Product> ActiveProducts { get; }
+        public InsertCashTransaction AddCreditsToAccount(User user, int amount);
+        public BuyTransaction BuyProduct(User user, Product product);
+        public Product GetProductByID(int id);
+        public IEnumerable<ITransaction> GetTransactions(User user, int count);
+        public IEnumerable<User> GetUsers(Func<User, bool> predicate);
+        public User GetUserByUsername(string username);
+        public event User.UserBalanceNotification UserBalanceWarning;
     }
 }

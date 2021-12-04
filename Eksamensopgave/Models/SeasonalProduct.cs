@@ -1,6 +1,6 @@
 using System;
 
-namespace Eksamensopgave
+namespace Eksamensopgave.Models
 {
     class SeasonalProduct : Product
     {

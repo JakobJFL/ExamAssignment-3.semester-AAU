@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace Eksamensopgave
+namespace Eksamensopgave.Models
 {
 
     public class User : IComparable
@@ -64,9 +60,7 @@ namespace Eksamensopgave
         private bool IsValidEmail(string email) 
         {
             if (email.Trim().EndsWith(".") || email.Trim().EndsWith("-"))
-            {
                 return false; 
-            }
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);

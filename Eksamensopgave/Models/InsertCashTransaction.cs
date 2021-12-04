@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 
-namespace Eksamensopgave
+namespace Eksamensopgave.Models
 {
-    class InsertCashTransaction : ITransaction
+    public class InsertCashTransaction : ITransaction
     {
         private static int _id = 1;
-        public InsertCashTransaction(User user, int amount)
+        public InsertCashTransaction(User user, decimal amount)
         {
             User = user;
             Amount = amount;
@@ -13,7 +13,7 @@ namespace Eksamensopgave
         }
         public int ID { get; set; } = _id;
         public User User { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public decimal Amount { get; set; }
         public override string ToString()
         {

@@ -1,4 +1,5 @@
 using System;
+using Eksamensopgave.Models;
 
 namespace Eksamensopgave
 {

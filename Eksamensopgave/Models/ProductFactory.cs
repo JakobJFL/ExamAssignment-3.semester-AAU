@@ -1,4 +1,4 @@
-﻿namespace Eksamensopgave
+namespace Eksamensopgave.Models
 {
     class ProductFactory
     {

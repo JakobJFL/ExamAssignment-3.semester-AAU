@@ -21,9 +21,9 @@ namespace Eksamensopgave.Tests
         public void Load_CanHandleDifferentSplitChars_SplitsString(char splitChar)
         {
             // Arrange
-            string text1 = "assd";
-            string text2 = "sadsad";
-            FileManager<Foo> fileManager = new FileManager<Foo>(StreamReaderMock.Object, splitChar);
+            string text1 = "Test Text";
+            string text2 = " text  ";
+            LodeFromFile<Foo> fileManager = new LodeFromFile<Foo>(StreamReaderMock.Object, splitChar);
             StreamReaderMock.Setup(sr => sr.ReadLine()).Returns(text1 + splitChar+ text2);
             StreamReaderMock.SetupSequence(sr => sr.EndOfStream).Returns(false).Returns(true);
             // Act
@@ -35,11 +35,12 @@ namespace Eksamensopgave.Tests
             Assert.Equal(text1, actualObj.Property1);
             Assert.Equal(text2, actualObj.Property2);
         }
+
         [Fact]
-        public void Load_Name()
+        public void Load_CanSkipFirstLine_RunOnce()
         {
             // Arrange
-            FileManager<Foo> fileManager = new FileManager<Foo>(StreamReaderMock.Object, ',');
+            LodeFromFile<Foo> fileManager = new LodeFromFile<Foo>(StreamReaderMock.Object, ',');
             StreamReaderMock.Setup(sr => sr.EndOfStream).Returns(true);
             // Act
             IEnumerable<Foo> actual = fileManager.Load(null);
@@ -47,11 +48,5 @@ namespace Eksamensopgave.Tests
             // Assert
             StreamReaderMock.Verify(sr => sr.ReadLine(), Times.Once);
         }
-    }
-    class Foo
-    {
-        public string Property1 { get; set; }
-        public string Property2 { get; set; }
-
     }
 }
