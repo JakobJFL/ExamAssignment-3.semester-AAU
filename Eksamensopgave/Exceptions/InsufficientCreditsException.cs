@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
-    class InsufficientCreditsException : Exception
+    public class InsufficientCreditsException : Exception
     {
         public InsufficientCreditsException(string message) : base(message) {}
     }

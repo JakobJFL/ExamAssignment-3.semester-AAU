@@ -1,10 +1,10 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Eksamensopgave.Models;
+using Stregsystem.Models;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public class Stregsystem : IStregsystem
     {
@@ -15,12 +15,11 @@ namespace Eksamensopgave
             Users = users;
         }
         private readonly int _notifyUserWhenBalance = 50;
-
         public IEnumerable<Product> ActiveProducts { get; }
         public IEnumerable<User> Users { get; }
         public IEnumerable<ITransaction> Transactions { get; }
 
-        public event User.UserBalanceNotification UserBalanceWarning;
+        public event UserBalanceNotification UserBalanceWarning;
 
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
@@ -33,25 +32,18 @@ namespace Eksamensopgave
 
         public BuyTransaction BuyProduct(User user, Product product)
         {
+            BuyTransaction transaction = new BuyTransaction(user, product, product.Price);
+            transaction.Execute();
+            WriteToFile write = new WriteToFile(_logFilePath);
+            write.LogTransection(transaction);
             if (user.Balance < _notifyUserWhenBalance && UserBalanceWarning != null)
                 UserBalanceWarning(user, user.Balance);
-            BuyTransaction transaction = new BuyTransaction(user, product, product.Price);
-            try
-            {
-                transaction.Execute();
-                WriteToFile write = new WriteToFile(_logFilePath);
-                write.LogTransection(transaction);
-            }
-            catch (InsufficientCreditsException ex)
-            {
-                Console.WriteLine(ex.Message); //skal nok være et andet sted
-            }
             return transaction;
         }
 
         public Product GetProductByID(int id)
         {
-            return ActiveProducts.FirstOrDefault(p => p.ID == id) ?? throw new Exception(); // Måske noget andet end Exception kan også bare return n
+            return ActiveProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException(); // Måske noget andet end Exception kan også bare return n
         }
 
         public IEnumerable<ITransaction> GetTransactions(User user, int count)
@@ -61,7 +53,7 @@ namespace Eksamensopgave
 
         public User GetUserByUsername(string username)
         {
-            return (User)Users.Where(u => u.Username == username).First();
+            return Users.FirstOrDefault(u => u.Username == username) ?? throw new UserNotFoundException(); // Måske noget andet end Exception kan også bare return n
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)

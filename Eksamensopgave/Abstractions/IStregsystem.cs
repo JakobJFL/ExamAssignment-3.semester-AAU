@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Eksamensopgave.Models;
+using Stregsystem.Models;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public interface IStregsystem
     {
@@ -13,6 +13,6 @@ namespace Eksamensopgave
         public IEnumerable<ITransaction> GetTransactions(User user, int count);
         public IEnumerable<User> GetUsers(Func<User, bool> predicate);
         public User GetUserByUsername(string username);
-        public event User.UserBalanceNotification UserBalanceWarning;
+        public event UserBalanceNotification UserBalanceWarning;
     }
 }

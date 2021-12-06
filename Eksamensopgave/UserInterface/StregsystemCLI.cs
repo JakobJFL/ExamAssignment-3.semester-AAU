@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Eksamensopgave.Models;
+using Stregsystem.Models;
 
-namespace Eksamensopgave.UserInterface
+namespace Stregsystem.UserInterface
 {
     public class StregsystemCLI : IStregsystemUI
     {
@@ -18,6 +18,7 @@ namespace Eksamensopgave.UserInterface
         public StregsystemCLI(IStregsystem stregsystem)
         {
             Stregsystem = stregsystem;
+            Stregsystem.UserBalanceWarning += DisplayUserBalanceWarning;
         }
 
         public void Start()
@@ -28,21 +29,27 @@ namespace Eksamensopgave.UserInterface
             {
                 Console.WriteLine("  - " + product.ToString());
             }
+            ListenForConsoleInput();
+        }
+
+        public void ListenForConsoleInput()
+        {
             Console.WriteLine("==========================");
-            //CommandEntered += noget;
+            string command = Console.ReadLine();
+            CommandEntered(command);
         }
 
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\""+transaction.User.Username + "\" har købt: \"" + transaction.Product.Name + "\" for " + transaction.Amount + "kr.");
+            Console.WriteLine("\""+transaction.User.Username + "\" har købt: \"" + transaction.Product.Name + "\" for " + transaction.Amount + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
         }
 
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\"" + transaction.User.Username + "\" har købt " + count + " af: \"" + transaction.Product.Name + "\" for " + transaction.Amount + "kr.");
+            Console.WriteLine("\"" + transaction.User.Username + "\" har købt " + count + " af: \"" + transaction.Product.Name + "\" for " + transaction.Amount + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
         }
 
@@ -52,7 +59,7 @@ namespace Eksamensopgave.UserInterface
         }
         public void Close()
         {
-            throw new NotImplementedException();
+            Environment.Exit(0);
         }
         public void DisplayAdminCommandNotFoundMessage(string adminCommand)
         {
@@ -66,7 +73,7 @@ namespace Eksamensopgave.UserInterface
 
         public void DisplayProductNotFound(string product)
         {
-            DisplayGeneralError("Produktet: \"" + product + "\" kunne ikke findes");
+            DisplayGeneralError("Produktet med Id: \"" + product + "\" kunne ikke findes");
         }
 
         public void DisplayTooManyArgumentsError(string command)
@@ -76,13 +83,20 @@ namespace Eksamensopgave.UserInterface
 
         public void DisplayUserNotFound(string username)
         {
-            DisplayGeneralError("Brugeren: \"" + username + "\" kunne ikke findes");
+            DisplayGeneralError("Brugeren med brugernavnet: \"" + username + "\" kunne ikke findes");
         }
 
         public void DisplayGeneralError(string errorString)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(errorString);
+            Console.ForegroundColor = _defaultConsoleColor;
+        }
+
+        public void DisplayUserBalanceWarning(User user, decimal balance)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\"" + user.Username + "\"s er salto kun på: " + balance + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
         }
     }

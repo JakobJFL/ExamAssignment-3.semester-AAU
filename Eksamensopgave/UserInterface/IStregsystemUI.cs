@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Eksamensopgave.Models;
+using Stregsystem.Models;
 
-namespace Eksamensopgave
+namespace Stregsystem.UserInterface
 {
     public interface IStregsystemUI
     {
@@ -21,6 +21,8 @@ namespace Eksamensopgave
         public void DisplayAdminCommandNotFoundMessage(string adminCommand);
         public void DisplayTooManyArgumentsError(string command);
         public void DisplayGeneralError(string errorString);
+        public void DisplayUserBalanceWarning(User user, decimal balance);
+        public void ListenForConsoleInput();
 
     }
 }

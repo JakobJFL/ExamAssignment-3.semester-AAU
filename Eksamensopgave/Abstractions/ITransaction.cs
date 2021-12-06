@@ -1,7 +1,7 @@
 using System;
-using Eksamensopgave.Models;
+using Stregsystem.Models;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public interface ITransaction
     {

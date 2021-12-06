@@ -8,3 +8,4 @@ id,firstname,lastname,username,balance,email
 7,Robert,King,rking,-1000,rking@sample.stregsystem.dk
 10,Laura,Callahan,lcall,103000,lcall@sample.stregsystem.dk
 11,Anne,Dodsworth,adods,0,adods@sample.stregsystem.dk
+12,Anne1,Dodsworth1,test,4099,adods1@sample.stregsystem.dk

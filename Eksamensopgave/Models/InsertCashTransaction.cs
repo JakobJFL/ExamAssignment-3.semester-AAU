@@ -1,6 +1,6 @@
 using System;
 
-namespace Eksamensopgave.Models
+namespace Stregsystem.Models
 {
     public class InsertCashTransaction : ITransaction
     {

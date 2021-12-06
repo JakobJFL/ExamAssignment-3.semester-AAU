@@ -1,4 +1,4 @@
-﻿namespace Eksamensopgave.Tests
+﻿namespace Stregsystem.Tests
 {
     public class Foo
     {

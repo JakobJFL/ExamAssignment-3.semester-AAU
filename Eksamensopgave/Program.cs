@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Eksamensopgave.Models;
-using Eksamensopgave.UserInterface;
+using Stregsystem.Models;
+using Stregsystem.UserInterface;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public class Program
     {
@@ -17,8 +17,9 @@ namespace Eksamensopgave
             ILodeFromFile<User> userFileManager = new LodeFromFile<User>(new NewStreamReader(_usersFilePath), ',');
             IEnumerable<Product> products = productFileManager.Load(ParseData.ParseProduct);
             IStregsystem stregsystem = new Stregsystem(products.Where(t => t.Active == true), userFileManager.Load(ParseData.ParseUser));
-            IStregsystemUI userInterface = new StregsystemCLI(stregsystem);
-            userInterface.Start();
+            IStregsystemUI ui = new StregsystemCLI(stregsystem);
+            IStregsystemController sc = new StregsystemController(stregsystem, ui);
+            ui.Start();
             /*
             for (int i = 1; i < 135; i++)
             {

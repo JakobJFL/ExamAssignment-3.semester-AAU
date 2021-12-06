@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Eksamensopgave.Tests
+namespace Stregsystem.Tests
 {
     public class ParseDataTest
     {

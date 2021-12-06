@@ -1,7 +1,7 @@
 using System.IO;
-using Eksamensopgave.Models;
+using Stregsystem.Models;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public class WriteToFile
     {

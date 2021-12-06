@@ -1,6 +1,6 @@
 using System;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public interface IStreamReader : IDisposable
     {

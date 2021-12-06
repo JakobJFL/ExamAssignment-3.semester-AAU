@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public class NewStreamReader : StreamReader, IStreamReader
     {

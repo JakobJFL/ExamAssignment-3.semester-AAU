@@ -4,7 +4,7 @@ using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Eksamensopgave.Tests
+namespace Stregsystem.Tests
 {
     public class FileManagerTests
     {

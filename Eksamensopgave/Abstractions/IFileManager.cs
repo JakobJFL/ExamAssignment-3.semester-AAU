@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Eksamensopgave
+namespace Stregsystem
 {
     public interface ILodeFromFile<T>
     {

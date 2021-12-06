@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Eksamensopgave\Eksamensopgave.csproj" />
+    <ProjectReference Include="..\Eksamensopgave\Stregsystem.csproj" />
   </ItemGroup>
 
 </Project>

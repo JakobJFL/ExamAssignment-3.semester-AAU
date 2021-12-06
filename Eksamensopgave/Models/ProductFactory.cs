@@ -1,4 +1,4 @@
-namespace Eksamensopgave.Models
+namespace Stregsystem.Models
 {
     class ProductFactory
     {

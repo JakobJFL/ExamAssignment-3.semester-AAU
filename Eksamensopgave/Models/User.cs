@@ -2,15 +2,12 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace Eksamensopgave.Models
+namespace Stregsystem.Models
 {
+    public delegate void UserBalanceNotification(User user, decimal balance);
 
     public class User : IComparable
     {
-        public delegate void UserBalanceNotification(User user, decimal balance);
-        public event UserBalanceNotification UserBalanceNotificationEvent;
-        //public event Action UserBalanceNotification;
-
         private static int _id = 1;
 
         public User(string[] firstnames, string lastname, string username, string email)
@@ -25,7 +22,6 @@ namespace Eksamensopgave.Models
                 Email = email;
             else
                 throw new ValidationException("Does not live up to requirements");
-            UserBalanceNotificationEvent += NotifyUser;
             _id++;
         }
 
@@ -44,12 +40,6 @@ namespace Eksamensopgave.Models
 
             return firstnames + Lastname + " (" + Email + ")";
         }
-
-        private void NotifyUser(User user, decimal balance)
-        {
-
-        }
-
         private bool IsUsernameValid(string username)
         {
             Regex rgx = new Regex(@"^[0-9&_&a-z]+$");
