@@ -14,10 +14,10 @@ namespace Stregsystem
             ActiveProducts = activeProducts;
             Users = users;
         }
-        private readonly int _notifyUserWhenBalance = 50;
+        public int NotifyUserWhenBalance { get; } = 50;
         public IEnumerable<Product> ActiveProducts { get; }
         public IEnumerable<User> Users { get; }
-        public IEnumerable<ITransaction> Transactions { get; }
+        public List<ITransaction> Transactions { get; } = new List<ITransaction>();
 
         public event UserBalanceNotification UserBalanceWarning;
 
@@ -35,25 +35,31 @@ namespace Stregsystem
             BuyTransaction transaction = new BuyTransaction(user, product, product.Price);
             transaction.Execute();
             WriteToFile write = new WriteToFile(_logFilePath);
+            Transactions.Add(transaction);
             write.LogTransection(transaction);
-            if (user.Balance < _notifyUserWhenBalance && UserBalanceWarning != null)
+            if (user.Balance < NotifyUserWhenBalance && UserBalanceWarning != null)
                 UserBalanceWarning(user, user.Balance);
             return transaction;
         }
-
         public Product GetProductByID(int id)
         {
-            return ActiveProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException(); // Måske noget andet end Exception kan også bare return n
+            return ActiveProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException(); 
         }
 
-        public IEnumerable<ITransaction> GetTransactions(User user, int count)
+        public IEnumerable<ITransaction> GetTransactions(User user, int count, Func<ITransaction, bool> predicate)
         {
-            return Transactions.Where(u => u == user).Take(count);
+            if (Transactions == null)
+                throw new NoTransactionsFound();
+            return Transactions
+                .Where(t => t.User == user)
+                .Where(predicate)
+                .OrderByDescending(t => t.ID)
+                .Take(count);
         }
 
         public User GetUserByUsername(string username)
         {
-            return Users.FirstOrDefault(u => u.Username == username) ?? throw new UserNotFoundException(); // Måske noget andet end Exception kan også bare return n
+            return Users.FirstOrDefault(u => u.Username == username) ?? throw new UserNotFoundException();
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)

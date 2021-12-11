@@ -9,7 +9,7 @@ namespace Stregsystem.UserInterface
 {
     public interface IStregsystemUI
     {
-        public event UserInterface.StregsystemCLI.StregsystemEvent CommandEntered;
+        public event StregsystemCLI.StregsystemEvent CommandEntered;
         public void Start();
         public void DisplayUserInfo(User user);
         public void DisplayUserBuysProduct(BuyTransaction transaction);

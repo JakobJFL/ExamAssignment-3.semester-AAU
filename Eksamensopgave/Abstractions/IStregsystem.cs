@@ -10,9 +10,10 @@ namespace Stregsystem
         public InsertCashTransaction AddCreditsToAccount(User user, int amount);
         public BuyTransaction BuyProduct(User user, Product product);
         public Product GetProductByID(int id);
-        public IEnumerable<ITransaction> GetTransactions(User user, int count);
+        public IEnumerable<ITransaction> GetTransactions(User user, int count, Func<ITransaction, bool> predicate);
         public IEnumerable<User> GetUsers(Func<User, bool> predicate);
         public User GetUserByUsername(string username);
         public event UserBalanceNotification UserBalanceWarning;
+        public int NotifyUserWhenBalance { get; }
     }
 }

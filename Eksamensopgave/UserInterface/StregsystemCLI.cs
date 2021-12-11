@@ -18,7 +18,6 @@ namespace Stregsystem.UserInterface
         public StregsystemCLI(IStregsystem stregsystem)
         {
             Stregsystem = stregsystem;
-            Stregsystem.UserBalanceWarning += DisplayUserBalanceWarning;
         }
 
         public void Start()
@@ -34,6 +33,7 @@ namespace Stregsystem.UserInterface
 
         public void ListenForConsoleInput()
         {
+            Stregsystem.UserBalanceWarning += DisplayUserBalanceWarning;
             Console.WriteLine("==========================");
             string command = Console.ReadLine();
             CommandEntered(command);
@@ -42,20 +42,29 @@ namespace Stregsystem.UserInterface
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\""+transaction.User.Username + "\" har købt: \"" + transaction.Product.Name + "\" for " + transaction.Amount + " kr.");
+            Console.WriteLine("\"" + transaction.User.Username + "\" har købt: \"" + transaction.Product.Name + "\" for " + transaction.Amount + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
         }
 
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\"" + transaction.User.Username + "\" har købt " + count + " af: \"" + transaction.Product.Name + "\" for " + transaction.Amount + " kr.");
+            Console.WriteLine("\"" + transaction.User.Username + "\" har købt " + count + " af: \"" + transaction.Product.Name + "\" for " + transaction.Amount*count + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
         }
 
         public void DisplayUserInfo(User user)
         {
             Console.WriteLine(user.ToString());
+            List<ITransaction> transactionsList = Stregsystem.GetTransactions(user, 10, t => t is BuyTransaction).ToList();
+            if (user.Balance < Stregsystem.NotifyUserWhenBalance)
+                DisplayUserBalanceWarning(user, user.Balance);
+            if (transactionsList.Count != 0)
+            {
+                Console.WriteLine("============= Tidligere køb =============");
+                foreach (ITransaction tran in transactionsList)
+                    Console.WriteLine(((BuyTransaction)tran).ToString());
+            }
         }
         public void Close()
         {
@@ -98,6 +107,7 @@ namespace Stregsystem.UserInterface
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\"" + user.Username + "\"s er salto kun på: " + balance + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
+            Stregsystem.UserBalanceWarning -= DisplayUserBalanceWarning;
         }
     }
 }

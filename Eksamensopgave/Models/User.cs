@@ -38,7 +38,7 @@ namespace Stregsystem.Models
             foreach (string fName in Firstnames)
                 firstnames += fName + " ";
 
-            return firstnames + Lastname + " (" + Email + ")";
+            return "[" + Username + "], " + firstnames + Lastname + ", Saldo: " + Balance + " kr.";
         }
         private bool IsUsernameValid(string username)
         {
