@@ -14,8 +14,8 @@ namespace Stregsystem.UserInterface
         public event StregsystemEvent CommandEntered;
 
         private readonly ConsoleColor _defaultConsoleColor = ConsoleColor.White;
-        public IStregsystem Stregsystem { get; }
-        public StregsystemCLI(IStregsystem stregsystem)
+        public IStregsystemHandler Stregsystem { get; }
+        public StregsystemCLI(IStregsystemHandler stregsystem)
         {
             Stregsystem = stregsystem;
         }

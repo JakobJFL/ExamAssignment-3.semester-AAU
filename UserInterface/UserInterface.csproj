@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Eksamensopgave\Stregsystem.csproj" />
+    <ProjectReference Include="..\StregsystemController\Stregsystem.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using Stregsystem.Models;
 using Xunit;
 
 namespace Stregsystem.Tests

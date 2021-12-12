@@ -6,10 +6,10 @@ using Stregsystem.Models;
 
 namespace Stregsystem
 {
-    public class Stregsystem : IStregsystem
+    public class StregsystemHandler : IStregsystemHandler
     {
         private static readonly string _logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "log.csv");
-        public Stregsystem(IEnumerable<Product> activeProducts, IEnumerable<User> users)
+        public StregsystemHandler(IEnumerable<Product> activeProducts, IEnumerable<User> users)
         {
             ActiveProducts = activeProducts;
             Users = users;

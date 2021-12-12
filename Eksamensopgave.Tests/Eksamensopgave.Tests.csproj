@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Eksamensopgave\Stregsystem.csproj" />
+    <ProjectReference Include="..\Eksamensopgave\StregsystemController.csproj" />
   </ItemGroup>
 
 </Project>
