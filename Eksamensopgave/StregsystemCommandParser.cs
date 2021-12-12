@@ -4,17 +4,17 @@ using System.Linq;
 using Stregsystem;
 using Stregsystem.UserInterface;
 
-namespace Stregsystem
+namespace StregsystemController
 {
     public class StregsystemCommandParser : IStregsystemCommandParser
     {
 
         private Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
-        public IStregsystem Stregsystem { get; }
+        public IStregsystemHandler Stregsystem { get; }
         public IStregsystemUI StregsystemUI { get; }
         private HandleCommands Handle { get; }
 
-        public StregsystemCommandParser(IStregsystem stregsystem, IStregsystemUI stregsystemUI)
+        public StregsystemCommandParser(IStregsystemHandler stregsystem, IStregsystemUI stregsystemUI)
         {
             Stregsystem = stregsystem;
             StregsystemUI = stregsystemUI;

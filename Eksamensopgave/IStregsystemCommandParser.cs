@@ -4,7 +4,7 @@ namespace Stregsystem
 {
     public interface IStregsystemCommandParser
     {
-        IStregsystem Stregsystem { get; }
+        IStregsystemHandler Stregsystem { get; }
 
         public void ParseCommand(string command);
     }

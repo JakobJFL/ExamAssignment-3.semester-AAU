@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Stregsystem
+namespace Stregsystem.DataAccess
 {
     public partial class LodeFromFile<T> : ILodeFromFile<T>
     {

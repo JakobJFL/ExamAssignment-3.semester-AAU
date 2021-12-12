@@ -4,7 +4,7 @@ using Stregsystem.Models;
 
 namespace Stregsystem
 {
-    public interface IStregsystem
+    public interface IStregsystemHandler
     {
         public IEnumerable<Product> ActiveProducts { get; }
         public InsertCashTransaction AddCreditsToAccount(User user, int amount);

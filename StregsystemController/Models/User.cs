@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 namespace Stregsystem.Models
 {
     public delegate void UserBalanceNotification(User user, decimal balance);
-
     public class User : IComparable
     {
         private static int _id = 1;
@@ -53,6 +52,7 @@ namespace Stregsystem.Models
                 return false; 
             try
             {
+                //thoew if not valed MailAddress
                 var addr = new System.Net.Mail.MailAddress(email);
                 return addr.Address == email;
             }

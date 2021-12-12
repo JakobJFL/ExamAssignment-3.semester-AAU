@@ -3,6 +3,7 @@ using Moq;
 using Xunit;
 using System.Collections.Generic;
 using System.Linq;
+using Stregsystem.DataAccess;
 
 namespace Stregsystem.Tests
 {

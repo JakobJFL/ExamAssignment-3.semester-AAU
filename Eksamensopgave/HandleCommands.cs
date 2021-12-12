@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Stregsystem;
 using Stregsystem.Models;
 using Stregsystem.UserInterface;
 
-namespace Stregsystem
+namespace StregsystemController
 {
     public class HandleCommands
     {
         private Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
 
-        public IStregsystem Stregsystem { get; }
+        public IStregsystemHandler Stregsystem { get; }
         public IStregsystemUI StregsystemUI { get; }
-        public HandleCommands(IStregsystem stregsystem, IStregsystemUI stregsystemUI, Dictionary<string, Action<string[]>> adminCommands)
+        public HandleCommands(IStregsystemHandler stregsystem, IStregsystemUI stregsystemUI, Dictionary<string, Action<string[]>> adminCommands)
         {
             Stregsystem = stregsystem;
             StregsystemUI = stregsystemUI;
