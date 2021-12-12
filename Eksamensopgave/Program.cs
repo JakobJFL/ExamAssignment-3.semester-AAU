@@ -20,21 +20,6 @@ namespace Stregsystem
             IStregsystemUI ui = new StregsystemCLI(stregsystem);
             IStregsystemController sc = new StregsystemController(stregsystem, ui);
             ui.Start();
-            /*
-            for (int i = 1; i < 135; i++)
-            {
-                Console.WriteLine(stregsystem.GetProductByID(i));
-            }
-            IEnumerable<User> userList = stregsystem.GetUsers(u => u.ID > 0);
-            foreach (User user in userList)
-            {
-                Console.WriteLine(user.ToString());
-            }
-
-            stregsystem.AddCreditsToAccount(stregsystem.GetUserByUsername("rking"), 1650);
-            stregsystem.BuyProduct(stregsystem.GetUserByUsername("rking"), stregsystem.GetProductByID(29));
-            stregsystem.BuyProduct(stregsystem.GetUserByUsername("rking"), stregsystem.GetProductByID(29));
-            */
             
         }
     }

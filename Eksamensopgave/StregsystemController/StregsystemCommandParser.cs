@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Stregsystem;
-using Stregsystem.Models;
 using Stregsystem.UserInterface;
 
 namespace Stregsystem
@@ -13,12 +12,14 @@ namespace Stregsystem
         private Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
         public IStregsystem Stregsystem { get; }
         public IStregsystemUI StregsystemUI { get; }
+        private HandleCommands Handle { get; }
 
         public StregsystemCommandParser(IStregsystem stregsystem, IStregsystemUI stregsystemUI)
         {
             Stregsystem = stregsystem;
             StregsystemUI = stregsystemUI;
             StregsystemUI.CommandEntered += ParseCommand;
+            Handle = new HandleCommands(stregsystem, stregsystemUI, _adminCommands);
             InitializeAdminCommands();
         }
 
@@ -26,11 +27,11 @@ namespace Stregsystem
         {
             _adminCommands.Add(":q", a => StregsystemUI.Close());
             _adminCommands.Add(":quit", a => StregsystemUI.Close());
-            _adminCommands.Add(":activate", a => SetActivateOnProduct(a[1], true));
-            _adminCommands.Add(":deactivate", a => SetActivateOnProduct(a[1], false));
-            _adminCommands.Add(":crediton", a => SetCreditOnProduct(a[1], true));
-            _adminCommands.Add(":creditoff", a => SetCreditOnProduct(a[1], false));
-            _adminCommands.Add(":addcredits", a => AddToBalance(a[1], a[2])); // SKAL være decimal ikke int
+            _adminCommands.Add(":activate", a => Handle.SetActivateOnProduct(a[1], true));
+            _adminCommands.Add(":deactivate", a => Handle.SetActivateOnProduct(a[1], false));
+            _adminCommands.Add(":crediton", a => Handle.SetCreditOnProduct(a[1], true));
+            _adminCommands.Add(":creditoff", a => Handle.SetCreditOnProduct(a[1], false));
+            _adminCommands.Add(":addcredits", a => Handle.AddToBalance(a[1], a[2])); // SKAL være decimal ikke int
         }
 
         public void ParseCommand(string command)
@@ -39,13 +40,13 @@ namespace Stregsystem
             try
             {
                 if (command.StartsWith(":"))
-                    HandleAdminCommand(commands);
+                    Handle.HandleAdminCommand(commands);
                 else if (commands.Length == 1)
-                    HandleShowInfoCommand(commands[0]);
+                    Handle.HandleShowInfoCommand(commands[0]);
                 else if (commands.Length == 2)
-                    HandleBuyCommand(commands);
+                    Handle.HandleBuyCommand(commands);
                 else if (commands.Length == 3)
-                    HandleMultiBuyCommand(commands);
+                    Handle.HandleMultiBuyCommand(commands);
                 else
                     throw new TooManyArgumentsError();
             }
@@ -73,88 +74,6 @@ namespace Stregsystem
             {
                 StregsystemUI.ListenForConsoleInput();
             }
-        }
-
-        private void HandleShowInfoCommand(string username)
-        {
-            User user = Stregsystem.GetUserByUsername(username);
-            StregsystemUI.DisplayUserInfo(user);
-        }
-
-        private void HandleMultiBuyCommand(string[] commands)
-        {
-            string username = commands[0];
-            User user = Stregsystem.GetUserByUsername(username);
-            if (!int.TryParse(commands[1], out int productCount))
-                throw new ProductNotFoundException("Could not parse to int");
-            if (!int.TryParse(commands[2], out int productId))
-                throw new ProductNotFoundException("Could not parse to int");
-            Product product = Stregsystem.GetProductByID(productId);
-            try
-            {
-                if (user.Balance < product.Price * productCount)
-                    throw new InsufficientCreditsException();
-
-                BuyTransaction transaction = null;
-                for (int i = 0; i < productCount; i++)
-                {
-                    transaction = Stregsystem.BuyProduct(user, product);
-                }
-                StregsystemUI.DisplayUserBuysProduct(productCount, transaction);
-            }
-            catch (InsufficientCreditsException)
-            {
-                StregsystemUI.DisplayInsufficientCash(user, product);
-            }
-        }
-
-        private void HandleBuyCommand(string[] commands)
-        {
-            string username = commands[0];
-            User user = Stregsystem.GetUserByUsername(username);
-            if (!int.TryParse(commands[1], out int productId))
-                throw new ProductNotFoundException("Could not parse to int");
-            Product product = Stregsystem.GetProductByID(productId);
-            try
-            {
-                BuyTransaction transaction = Stregsystem.BuyProduct(user, product);
-                StregsystemUI.DisplayUserBuysProduct(transaction);
-            }
-            catch (InsufficientCreditsException)
-            {
-                StregsystemUI.DisplayInsufficientCash(user, product);
-            }
-        }
-
-        private void HandleAdminCommand(string[] commands)
-        {
-            if (_adminCommands.ContainsKey(commands[0]))
-            {
-                _adminCommands[commands[0]](commands);
-            }
-            else
-                throw new AdminCommandNotFound();
-        }
-
-        private void SetActivateOnProduct(string productId, bool isActive)
-        {
-            if (!int.TryParse(productId, out int commandId))
-                throw new TooManyArgumentsError("Could not parse to int");
-            Stregsystem.GetProductByID(commandId).Active = isActive;
-        }
-
-        private void SetCreditOnProduct(string productId, bool isCredit)
-        {
-            if (!int.TryParse(productId, out int commandId))
-                throw new TooManyArgumentsError("Could not parse to int");
-            Stregsystem.GetProductByID(commandId).CanBeBoughtOnCredit = isCredit;
-        }
-
-        private void AddToBalance(string username, string amount)
-        {
-            if (!decimal.TryParse(amount, out decimal commandAmount))
-                throw new TooManyArgumentsError("Could not parse to decimal");
-            Stregsystem.GetUserByUsername(username).Balance += commandAmount;
         }
     }
 }
