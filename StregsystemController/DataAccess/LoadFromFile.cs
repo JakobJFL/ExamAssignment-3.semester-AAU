@@ -8,12 +8,12 @@ using Stregsystem.Abstractions;
 
 namespace Stregsystem.DataAccess
 {
-    public partial class LodeFromFile<T> : ILodeFromFile<T>
+    public partial class LoadFromFile<T> : ILodeFromFile<T>
     {
         public IStreamReader Reader { get; }
         public char SplitChar { get; }
 
-        public LodeFromFile(IStreamReader reader, char splitChar)
+        public LoadFromFile(IStreamReader reader, char splitChar)
         {
             Reader = reader;
             SplitChar = splitChar;

@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,13 +12,15 @@ namespace Stregsystem
     public class StregsystemHandler : IStregsystemHandler
     {
         private static readonly string _logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "log.csv");
-        public StregsystemHandler(IEnumerable<Product> activeProducts, IEnumerable<User> users)
+        public StregsystemHandler(string productsDir, string usersDir)
         {
-            ActiveProducts = activeProducts;
-            Users = users;
+            ILodeFromFile<Product> productFileManager = new LoadFromFile<Product>(new NewStreamReader(productsDir), ';');
+            ILodeFromFile<User> userFileManager = new LoadFromFile<User>(new NewStreamReader(usersDir), ',');
+            AllProducts = productFileManager.Load(ParseData.ParseProduct);
+            Users = userFileManager.Load(ParseData.ParseUser);
         }
         public int NotifyUserWhenBalance { get; } = 50;
-        public IEnumerable<Product> ActiveProducts { get; }
+        public IEnumerable<Product> AllProducts { get; }
         public IEnumerable<User> Users { get; }
         public List<ITransaction> Transactions { get; } = new List<ITransaction>();
 
@@ -46,7 +48,7 @@ namespace Stregsystem
         }
         public Product GetProductByID(int id)
         {
-            return ActiveProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException(); 
+            return AllProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException(); 
         }
 
         public IEnumerable<ITransaction> GetTransactions(User user, int count, Func<ITransaction, bool> predicate)

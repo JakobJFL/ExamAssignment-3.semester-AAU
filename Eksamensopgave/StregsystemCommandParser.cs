@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Stregsystem;
 using Stregsystem.Abstractions;
 using Stregsystem.Exceptions;
-using Stregsystem.UserInterface;
+using StregsystemController.Abstractions;
+using UserInterface.Abstractions;
 
 namespace StregsystemController
 {
     public class StregsystemCommandParser : IStregsystemCommandParser
     {
-
         private Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
         public IStregsystemHandler Stregsystem { get; }
         public IStregsystemUI StregsystemUI { get; }
@@ -21,6 +19,7 @@ namespace StregsystemController
             Stregsystem = stregsystem;
             StregsystemUI = stregsystemUI;
             StregsystemUI.CommandEntered += ParseCommand;
+            Handle = new HandleCommands(stregsystem, stregsystemUI, _adminCommands);
             InitializeAdminCommands();
         }
 
@@ -61,15 +60,26 @@ namespace StregsystemController
             }
             catch (ProductNotFoundException)
             {
-                StregsystemUI.DisplayProductNotFound(commands[1]);
+                if (commands.Length == 2)
+                    StregsystemUI.DisplayProductNotFound(commands[1]);
+                else if (commands.Length == 3)
+                    StregsystemUI.DisplayProductNotFound(commands[2]);
             }
-            catch (AdminCommandNotFound)
+            catch (CommandNotFound)
             {
-                StregsystemUI.DisplayAdminCommandNotFoundMessage(command);
+                StregsystemUI.DisplayCommandNotFoundError(command);
+            }
+            catch (FormatException)
+            {
+                StregsystemUI.DisplayFormatError(command);
             }
             catch (IndexOutOfRangeException) // Ikke mega godt
             {
                 StregsystemUI.DisplayTooManyArgumentsError(command);
+            }
+            catch (InvalidOperationException)
+            {
+                StregsystemUI.DisplayProductNotFound(commands[1]);
             }
             finally
             {

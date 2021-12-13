@@ -6,7 +6,7 @@ namespace Stregsystem.Abstractions
 {
     public interface IStregsystemHandler
     {
-        public IEnumerable<Product> ActiveProducts { get; }
+        public IEnumerable<Product> AllProducts { get; }
         public InsertCashTransaction AddCreditsToAccount(User user, int amount);
         public BuyTransaction BuyProduct(User user, Product product);
         public Product GetProductByID(int id);

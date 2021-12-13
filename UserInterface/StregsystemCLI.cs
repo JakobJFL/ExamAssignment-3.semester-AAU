@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Stregsystem.Abstractions;
 using Stregsystem.Models;
+using UserInterface.Abstractions;
 
-namespace Stregsystem.UserInterface
+namespace UserInterface
 {
     public class StregsystemCLI : IStregsystemUI
     {
@@ -15,27 +14,32 @@ namespace Stregsystem.UserInterface
         public event StregsystemEvent CommandEntered;
 
         private readonly ConsoleColor _defaultConsoleColor = ConsoleColor.White;
-        public IStregsystemHandler Stregsystem { get; }
+        private IStregsystemHandler Stregsystem { get; }
         public StregsystemCLI(IStregsystemHandler stregsystem)
         {
             Stregsystem = stregsystem;
+            Stregsystem.UserBalanceWarning += DisplayUserBalanceWarning;
         }
 
         public void Start()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("============= Produkter =============");
             Console.WriteLine(" - ID|Navn|Pris -");
-            foreach (Product product in Stregsystem.ActiveProducts)
+            Console.ForegroundColor = _defaultConsoleColor;
+            foreach (Product product in Stregsystem.AllProducts)
             {
-                Console.WriteLine("  - " + product.ToString());
+                if (product.Active)
+                    Console.WriteLine("  - " + product.ToString());
             }
             ListenForConsoleInput();
         }
 
         public void ListenForConsoleInput()
         {
-            Stregsystem.UserBalanceWarning += DisplayUserBalanceWarning;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("==========================");
+            Console.ForegroundColor = _defaultConsoleColor;
             string command = Console.ReadLine();
             CommandEntered(command);
         }
@@ -43,14 +47,14 @@ namespace Stregsystem.UserInterface
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\"" + transaction.User.Username + "\" har købt: \"" + transaction.Product.Name + "\" for " + transaction.Amount + " kr.");
+            Console.WriteLine(transaction.User.Username + " har købt: \"" + transaction.Product.Name + "\" for " + transaction.Amount + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
         }
 
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\"" + transaction.User.Username + "\" har købt " + count + " af: \"" + transaction.Product.Name + "\" for " + transaction.Amount*count + " kr.");
+            Console.WriteLine(transaction.User.Username + " har købt " + count + " af: \"" + transaction.Product.Name + "\" for " + transaction.Amount * count + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
         }
 
@@ -78,7 +82,7 @@ namespace Stregsystem.UserInterface
 
         public void DisplayInsufficientCash(User user, Product product)
         {
-            DisplayGeneralError("\"" + user.Username + "\" har ikke råd til: \"" + product.Name + "\"");
+            DisplayGeneralError(user.Username + " har ikke råd til: \"" + product.Name + "\"");
         }
 
         public void DisplayProductNotFound(string product)
@@ -88,7 +92,16 @@ namespace Stregsystem.UserInterface
 
         public void DisplayTooManyArgumentsError(string command)
         {
-            DisplayGeneralError("Kommandoen: \"" + command + "\" var ikke indtastet korrekt");
+            DisplayGeneralError("Kommandoen: \"" + command + "\" har for mange argumenter");
+        }
+        public void DisplayFormatError(string command)
+        {
+            DisplayGeneralError("Kommandoen: \"" + command + "\" var ikke formateret korrekt");
+        }
+
+        public void DisplayCommandNotFoundError(string command)
+        {
+            DisplayGeneralError("Kommandoen: \"" + command + "\" kunne ikke findes");
         }
 
         public void DisplayUserNotFound(string username)
@@ -106,9 +119,8 @@ namespace Stregsystem.UserInterface
         public void DisplayUserBalanceWarning(User user, decimal balance)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\"" + user.Username + "\"s er salto kun på: " + balance + " kr.");
+            Console.WriteLine(user.Username + "s er salto kun på: " + balance + " kr.");
             Console.ForegroundColor = _defaultConsoleColor;
-            Stregsystem.UserBalanceWarning -= DisplayUserBalanceWarning;
         }
     }
 }

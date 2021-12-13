@@ -24,8 +24,8 @@ namespace Stregsystem.Tests
             // Arrange
             string text1 = "Test Text";
             string text2 = " text  ";
-            LodeFromFile<Foo> fileManager = new LodeFromFile<Foo>(StreamReaderMock.Object, splitChar);
-            StreamReaderMock.Setup(sr => sr.ReadLine()).Returns(text1 + splitChar+ text2);
+            LoadFromFile<Foo> fileManager = new LoadFromFile<Foo>(StreamReaderMock.Object, splitChar);
+            StreamReaderMock.Setup(sr => sr.ReadLine()).Returns(text1 + splitChar + text2);
             StreamReaderMock.SetupSequence(sr => sr.EndOfStream).Returns(false).Returns(true);
             // Act
             IEnumerable<Foo> actual = fileManager.Load(arr => new Foo() { Property1 = arr[0], Property2 = arr[1]});;
@@ -41,7 +41,7 @@ namespace Stregsystem.Tests
         public void Load_CanSkipFirstLine_RunOnce()
         {
             // Arrange
-            LodeFromFile<Foo> fileManager = new LodeFromFile<Foo>(StreamReaderMock.Object, ',');
+            LoadFromFile<Foo> fileManager = new LoadFromFile<Foo>(StreamReaderMock.Object, ',');
             StreamReaderMock.Setup(sr => sr.EndOfStream).Returns(true);
             // Act
             IEnumerable<Foo> actual = fileManager.Load(null);

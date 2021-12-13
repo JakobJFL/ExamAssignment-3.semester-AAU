@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
-using Stregsystem;
 using Stregsystem.Abstractions;
 using Stregsystem.Exceptions;
 using Stregsystem.Models;
-using Stregsystem.UserInterface;
+using StregsystemController.Abstractions;
+using UserInterface.Abstractions;
 
 namespace StregsystemController
 {
-    public class HandleCommands
+    public class HandleCommands : IHandleCommands
     {
         private Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
 
-        public IStregsystemHandler Stregsystem { get; }
-        public IStregsystemUI StregsystemUI { get; }
+        private IStregsystemHandler Stregsystem { get; }
+        private IStregsystemUI StregsystemUI { get; }
         public HandleCommands(IStregsystemHandler stregsystem, IStregsystemUI stregsystemUI, Dictionary<string, Action<string[]>> adminCommands)
         {
             Stregsystem = stregsystem;
@@ -36,6 +36,8 @@ namespace StregsystemController
             if (!int.TryParse(commands[2], out int productId))
                 throw new ProductNotFoundException("Could not parse to int");
             Product product = Stregsystem.GetProductByID(productId);
+            if (!product.Active)
+                throw new ProductNotFoundException();
             try
             {
                 if (user.Balance < product.Price * productCount)
@@ -61,6 +63,8 @@ namespace StregsystemController
             if (!int.TryParse(commands[1], out int productId))
                 throw new ProductNotFoundException("Could not parse to int");
             Product product = Stregsystem.GetProductByID(productId);
+            if (!product.Active)
+                throw new ProductNotFoundException();
             try
             {
                 BuyTransaction transaction = Stregsystem.BuyProduct(user, product);
@@ -79,27 +83,27 @@ namespace StregsystemController
                 _adminCommands[commands[0]](commands);
             }
             else
-                throw new AdminCommandNotFound();
+                throw new CommandNotFound();
         }
 
         public void SetActivateOnProduct(string productId, bool isActive)
         {
             if (!int.TryParse(productId, out int commandId))
-                throw new TooManyArgumentsError("Could not parse to int");
+                throw new FormatException("Could not parse to int");
             Stregsystem.GetProductByID(commandId).Active = isActive;
         }
 
         public void SetCreditOnProduct(string productId, bool isCredit)
         {
             if (!int.TryParse(productId, out int commandId))
-                throw new TooManyArgumentsError("Could not parse to int");
+                throw new FormatException("Could not parse to int");
             Stregsystem.GetProductByID(commandId).CanBeBoughtOnCredit = isCredit;
         }
 
         public void AddToBalance(string username, string amount)
         {
             if (!decimal.TryParse(amount, out decimal commandAmount))
-                throw new TooManyArgumentsError("Could not parse to decimal");
+                throw new FormatException("Could not parse to decimal");
             Stregsystem.GetUserByUsername(username).Balance += commandAmount;
         }
     }

@@ -1,7 +1,7 @@
 using Stregsystem;
 using Stregsystem.Abstractions;
 
-namespace Stregsystem
+namespace StregsystemController.Abstractions
 {
     public interface IStregsystemCommandParser
     {
