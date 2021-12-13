@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Stregsystem.Models;
 
-namespace Stregsystem
+namespace Stregsystem.Abstractions
 {
     public interface IStregsystemHandler
     {

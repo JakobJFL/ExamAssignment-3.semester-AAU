@@ -1,6 +1,6 @@
 using System;
 
-namespace Stregsystem
+namespace Stregsystem.Exceptions
 {
     public class InsufficientCreditsException : Exception
     {

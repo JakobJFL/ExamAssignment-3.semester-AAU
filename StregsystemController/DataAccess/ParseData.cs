@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Stregsystem.Models;
 
-namespace Stregsystem
+namespace Stregsystem.DataAccess
 {
     public class ParseData
     {

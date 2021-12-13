@@ -1,7 +1,8 @@
 using System.IO;
+using Stregsystem.Abstractions;
 using Stregsystem.Models;
 
-namespace Stregsystem
+namespace Stregsystem.DataAccess
 {
     public class WriteToFile
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Stregsystem
+namespace Stregsystem.Abstractions
 {
     public interface IStreamReader : IDisposable
     {

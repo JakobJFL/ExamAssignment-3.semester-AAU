@@ -1,4 +1,5 @@
 using Stregsystem;
+using Stregsystem.Abstractions;
 
 namespace Stregsystem
 {

@@ -1,6 +1,7 @@
 using System.IO;
+using Stregsystem.Abstractions;
 
-namespace Stregsystem
+namespace Stregsystem.DataAccess
 {
     public class NewStreamReader : StreamReader, IStreamReader
     {

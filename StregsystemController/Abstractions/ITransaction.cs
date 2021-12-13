@@ -1,7 +1,7 @@
 using System;
 using Stregsystem.Models;
 
-namespace Stregsystem
+namespace Stregsystem.Abstractions
 {
     public interface ITransaction
     {

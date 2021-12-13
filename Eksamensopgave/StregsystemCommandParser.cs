@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Stregsystem;
+using Stregsystem.Abstractions;
+using Stregsystem.Exceptions;
 using Stregsystem.UserInterface;
 
 namespace StregsystemController
@@ -19,7 +21,6 @@ namespace StregsystemController
             Stregsystem = stregsystem;
             StregsystemUI = stregsystemUI;
             StregsystemUI.CommandEntered += ParseCommand;
-            Handle = new HandleCommands(stregsystem, stregsystemUI, _adminCommands);
             InitializeAdminCommands();
         }
 
