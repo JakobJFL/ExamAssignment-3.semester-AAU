@@ -34,9 +34,9 @@ namespace Stregsystem.Tests
             values[1] = name;
             values[2] = "12,3";
             values[3] = "1";
-
+            
             // Act
-            Product actual = ParseData.ParseProduct(values);
+            Product actual = ParseData.ParseProduct(values, new ProductFactory());
 
             // Assert
             Assert.Equal(actual.Name, expectedName);

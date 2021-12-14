@@ -2,14 +2,13 @@ namespace Stregsystem.Models
 {
     public class Product
     {
-        private static int _id = 1;
-        public Product(string name, decimal price)
+        public Product(string name, decimal price, int id)
         {
+            ID = id;
             Name = name;
             Price = price;
-            _id++;
         }
-        public int ID { get; } = _id;
+        public int ID { get; }
         public string Name { get; private set; }
         public decimal Price { get; set; }
         public virtual bool Active { get; set; }

@@ -11,13 +11,16 @@ namespace Stregsystem
 {
     public class StregsystemHandler : IStregsystemHandler
     {
+        private TransactionFactory TransactionFactory { get; } = new TransactionFactory();
         private static readonly string _logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "log.csv");
         public StregsystemHandler(string productsDir, string usersDir)
         {
+            ProductFactory productFactory = new ProductFactory();
+            UserFactory userFactory = new UserFactory();
             ILodeFromFile<Product> productFileManager = new LoadFromFile<Product>(new NewStreamReader(productsDir), ';');
             ILodeFromFile<User> userFileManager = new LoadFromFile<User>(new NewStreamReader(usersDir), ',');
-            AllProducts = productFileManager.Load(ParseData.ParseProduct);
-            Users = userFileManager.Load(ParseData.ParseUser);
+            AllProducts = productFileManager.Load(v => ParseData.ParseProduct(v, productFactory));
+            Users = userFileManager.Load(v => ParseData.ParseUser(v, userFactory));
         }
         public int NotifyUserWhenBalance { get; } = 50;
         public IEnumerable<Product> AllProducts { get; }
@@ -28,7 +31,7 @@ namespace Stregsystem
 
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
-            InsertCashTransaction transaction = new InsertCashTransaction(user, amount);
+            InsertCashTransaction transaction = TransactionFactory.CreateInsertCashTransaction(user, amount);
             transaction.Execute();
             WriteToFile write = new WriteToFile(_logFilePath);
             write.LogTransection(transaction);
@@ -37,7 +40,7 @@ namespace Stregsystem
 
         public BuyTransaction BuyProduct(User user, Product product)
         {
-            BuyTransaction transaction = new BuyTransaction(user, product, product.Price);
+            BuyTransaction transaction = TransactionFactory.CreateBuyTransaction(user, product, product.Price);
             transaction.Execute();
             WriteToFile write = new WriteToFile(_logFilePath);
             Transactions.Add(transaction);

@@ -2,9 +2,9 @@ using System;
 
 namespace Stregsystem.Models
 {
-    class SeasonalProduct : Product
+    public class SeasonalProduct : Product
     {
-        public SeasonalProduct(string name, decimal price): base(name, price)
+        public SeasonalProduct(string name, decimal price, int id): base(name, price, id)
         {
             
         }

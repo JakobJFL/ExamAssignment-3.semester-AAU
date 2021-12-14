@@ -41,6 +41,8 @@ namespace StregsystemController
             {
                 if (command.StartsWith(":"))
                     Handle.HandleAdminCommand(commands);
+                else if (commands[0] == "list")
+                    StregsystemUI.DisplayProductList();
                 else if (commands.Length == 1)
                     Handle.HandleShowInfoCommand(commands[0]);
                 else if (commands.Length == 2)

@@ -20,6 +20,7 @@ namespace UserInterface.Abstractions
         void DisplayUserInfo(User user);
         void DisplayUserNotFound(string username);
         void ListenForConsoleInput();
+        void DisplayProductList();
         void Start();
     }
 }

@@ -7,10 +7,9 @@ namespace Stregsystem.Models
     public delegate void UserBalanceNotification(User user, decimal balance);
     public class User : IComparable
     {
-        private static int _id = 1;
-
-        public User(string[] firstnames, string lastname, string username, string email)
+        public User(string[] firstnames, string lastname, string username, string email, int id)
         {
+            ID = id;
             Firstnames = firstnames;
             Lastname = lastname;
             if (IsUsernameValid(username))
@@ -21,10 +20,9 @@ namespace Stregsystem.Models
                 Email = email;
             else
                 throw new ValidationException("Does not live up to requirements");
-            _id++;
         }
 
-        public int ID { get; } = _id;
+        public int ID { get; }
         public string[] Firstnames { get; set; }
         public string Lastname { get; set; }
         public string Username { get; private set; }
@@ -52,8 +50,7 @@ namespace Stregsystem.Models
                 return false; 
             try
             {
-                //thoew if not valed MailAddress
-                var addr = new System.Net.Mail.MailAddress(email);
+                var addr = new System.Net.Mail.MailAddress(email); //throws if not valed MailAddress
                 return addr.Address == email;
             }
             catch

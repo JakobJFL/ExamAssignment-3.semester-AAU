@@ -23,6 +23,12 @@ namespace UserInterface
 
         public void Start()
         {
+            DisplayProductList();
+            ListenForConsoleInput();
+        }
+
+        public void DisplayProductList()
+        {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("============= Produkter =============");
             Console.WriteLine(" - ID|Navn|Pris -");
@@ -32,7 +38,6 @@ namespace UserInterface
                 if (product.Active)
                     Console.WriteLine("  - " + product.ToString());
             }
-            ListenForConsoleInput();
         }
 
         public void ListenForConsoleInput()

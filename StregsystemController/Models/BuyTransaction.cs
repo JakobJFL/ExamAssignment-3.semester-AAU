@@ -6,15 +6,14 @@ namespace Stregsystem.Models
 {
     public class BuyTransaction : ITransaction
     {
-        private static int _id = 1;
-        public BuyTransaction(User user, Product product, decimal amount)
+        public BuyTransaction(User user, Product product, decimal amount, int id)
         {
+            ID = id;
             User = user;
             Product = product;
             Amount = amount;
-            _id++;
         }
-        public int ID { get; set; } = _id;
+        public int ID { get; set; }
         public User User { get; set; }
         public Product Product { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
