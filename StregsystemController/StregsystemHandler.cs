@@ -12,8 +12,7 @@ namespace Stregsystem
     public class StregsystemHandler : IStregsystemHandler
     {
         private TransactionFactory TransactionFactory { get; } = new TransactionFactory();
-        private static readonly string _logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "log.csv");
-        public StregsystemHandler(string productsDir, string usersDir)
+        public StregsystemHandler(string productsDir, string usersDir, string logDir)
         {
             ProductFactory productFactory = new ProductFactory();
             UserFactory userFactory = new UserFactory();
@@ -21,11 +20,13 @@ namespace Stregsystem
             ILodeFromFile<User> userFileManager = new LoadFromFile<User>(new NewStreamReader(usersDir), ',');
             AllProducts = productFileManager.Load(v => ParseData.ParseProduct(v, productFactory));
             Users = userFileManager.Load(v => ParseData.ParseUser(v, userFactory));
+            LogDir = logDir;
         }
         public int NotifyUserWhenBalance { get; } = 50;
         public IEnumerable<Product> AllProducts { get; }
         public IEnumerable<User> Users { get; }
         public List<ITransaction> Transactions { get; } = new List<ITransaction>();
+        private string LogDir { get; }
 
         public event UserBalanceNotification UserBalanceWarning;
 
@@ -33,7 +34,7 @@ namespace Stregsystem
         {
             InsertCashTransaction transaction = TransactionFactory.CreateInsertCashTransaction(user, amount);
             transaction.Execute();
-            WriteToFile write = new WriteToFile(_logFilePath);
+            WriteToFile write = new WriteToFile(LogDir);
             write.LogTransection(transaction);
             return transaction;
         }
@@ -42,7 +43,7 @@ namespace Stregsystem
         {
             BuyTransaction transaction = TransactionFactory.CreateBuyTransaction(user, product, product.Price);
             transaction.Execute();
-            WriteToFile write = new WriteToFile(_logFilePath);
+            WriteToFile write = new WriteToFile(LogDir);
             Transactions.Add(transaction);
             write.LogTransection(transaction);
             if (user.Balance < NotifyUserWhenBalance && UserBalanceWarning != null)
@@ -51,7 +52,7 @@ namespace Stregsystem
         }
         public Product GetProductByID(int id)
         {
-            return AllProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException(); 
+            return AllProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException();
         }
 
         public IEnumerable<ITransaction> GetTransactions(User user, int count, Func<ITransaction, bool> predicate)

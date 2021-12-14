@@ -6,12 +6,6 @@ namespace Stregsystem.Tests
 {
     public class ParseDataTest
     {
-        /*
-           The name of your test should consist of three parts:
-           * The name of the method being tested.
-           * The scenario under which it's being tested.
-           * The expected behavior when the scenario is invoked.
-       */
         [Theory]
         [InlineData("<h2>\"name</h2>", "name")]
         [InlineData("<h1>\"name 1,5\"</h1>", "name 1,5")]

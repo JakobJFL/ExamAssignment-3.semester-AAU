@@ -25,8 +25,8 @@ namespace Stregsystem.Models
         public int ID { get; }
         public string[] Firstnames { get; set; }
         public string Lastname { get; set; }
-        public string Username { get; private set; }
-        public string Email { get; set; }
+        public string Username { get; }
+        public string Email { get; }
         public decimal Balance { get; set; }
 
         public override string ToString()
@@ -39,7 +39,7 @@ namespace Stregsystem.Models
         }
         private bool IsUsernameValid(string username)
         {
-            Regex rgx = new Regex(@"^[0-9&_&a-z]+$");
+            Regex rgx = new Regex(@"^[0-9&_&a-z]+$"); 
             return rgx.IsMatch(username);
         }
 
@@ -66,7 +66,7 @@ namespace Stregsystem.Models
 
         public override bool Equals(object obj)
         {
-            if (((User)obj).ID != ID) //(obj == null) || !this.GetType().Equals(obj.GetType()) || this.Equals(obj)
+            if (((User)obj).ID != ID)
             {
                 return false;
             }

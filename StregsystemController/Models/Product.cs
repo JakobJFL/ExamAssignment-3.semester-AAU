@@ -9,8 +9,8 @@ namespace Stregsystem.Models
             Price = price;
         }
         public int ID { get; }
-        public string Name { get; private set; }
-        public decimal Price { get; set; }
+        public string Name { get; }
+        public decimal Price { get; }
         public virtual bool Active { get; set; }
         public bool CanBeBoughtOnCredit { get; set; } = false;
         public override string ToString()

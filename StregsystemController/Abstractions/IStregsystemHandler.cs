@@ -6,14 +6,18 @@ namespace Stregsystem.Abstractions
 {
     public interface IStregsystemHandler
     {
-        public IEnumerable<Product> AllProducts { get; }
-        public InsertCashTransaction AddCreditsToAccount(User user, int amount);
-        public BuyTransaction BuyProduct(User user, Product product);
-        public Product GetProductByID(int id);
-        public IEnumerable<ITransaction> GetTransactions(User user, int count, Func<ITransaction, bool> predicate);
-        public IEnumerable<User> GetUsers(Func<User, bool> predicate);
-        public User GetUserByUsername(string username);
-        public event UserBalanceNotification UserBalanceWarning;
-        public int NotifyUserWhenBalance { get; }
+        IEnumerable<Product> AllProducts { get; }
+        int NotifyUserWhenBalance { get; }
+        List<ITransaction> Transactions { get; }
+        IEnumerable<User> Users { get; }
+
+        event UserBalanceNotification UserBalanceWarning;
+
+        InsertCashTransaction AddCreditsToAccount(User user, int amount);
+        BuyTransaction BuyProduct(User user, Product product);
+        Product GetProductByID(int id);
+        IEnumerable<ITransaction> GetTransactions(User user, int count, Func<ITransaction, bool> predicate);
+        User GetUserByUsername(string username);
+        IEnumerable<User> GetUsers(Func<User, bool> predicate);
     }
 }

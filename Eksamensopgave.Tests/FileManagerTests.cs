@@ -9,12 +9,6 @@ namespace Stregsystem.Tests
 {
     public class FileManagerTests
     {
-        /*
-            The name of your test should consist of three parts:
-            * The name of the method being tested.
-            * The scenario under which it's being tested.
-            * The expected behavior when the scenario is invoked.
-        */
         public Mock<IStreamReader> StreamReaderMock { get; } = new Mock<IStreamReader>();
         [Theory]
         [InlineData(';')]

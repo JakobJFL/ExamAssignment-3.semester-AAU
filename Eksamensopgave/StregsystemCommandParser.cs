@@ -75,7 +75,7 @@ namespace StregsystemController
             {
                 StregsystemUI.DisplayFormatError(command);
             }
-            catch (IndexOutOfRangeException) // Ikke mega godt
+            catch (IndexOutOfRangeException) 
             {
                 StregsystemUI.DisplayTooManyArgumentsError(command);
             }
