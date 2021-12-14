@@ -43,7 +43,7 @@ namespace Stregsystem.Models
             return rgx.IsMatch(username);
         }
 
-        //Kilde: https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
+        //Source: https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
         private static bool IsValidEmail(string email) 
         {
             if (email.Trim().EndsWith(".") || email.Trim().EndsWith("-"))

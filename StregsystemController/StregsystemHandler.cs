@@ -22,12 +22,12 @@ namespace Stregsystem
             Users = userFileManager.Load(v => ParseData.ParseUser(v, userFactory));
             LogDir = logDir;
         }
+
         public int NotifyUserWhenBalance { get; } = 50;
         public IEnumerable<Product> AllProducts { get; }
         public IEnumerable<User> Users { get; }
         public List<ITransaction> Transactions { get; } = new List<ITransaction>();
         private string LogDir { get; }
-
         public event UserBalanceNotification UserBalanceWarning;
 
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
@@ -50,6 +50,7 @@ namespace Stregsystem
                 UserBalanceWarning(user, user.Balance);
             return transaction;
         }
+
         public Product GetProductByID(int id)
         {
             return AllProducts.FirstOrDefault(p => p.ID == id) ?? throw new ProductNotFoundException();

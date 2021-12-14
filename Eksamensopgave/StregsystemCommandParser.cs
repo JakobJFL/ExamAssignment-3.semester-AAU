@@ -31,7 +31,7 @@ namespace StregsystemController
             _adminCommands.Add(":deactivate", a => Handle.SetActivateOnProduct(a[1], false));
             _adminCommands.Add(":crediton", a => Handle.SetCreditOnProduct(a[1], true));
             _adminCommands.Add(":creditoff", a => Handle.SetCreditOnProduct(a[1], false));
-            _adminCommands.Add(":addcredits", a => Handle.AddToBalance(a[1], a[2])); // SKAL være decimal ikke int
+            _adminCommands.Add(":addcredits", a => Handle.AddToBalance(a[1], a[2]));
         }
 
         public void ParseCommand(string command)

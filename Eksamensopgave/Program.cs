@@ -17,7 +17,7 @@ namespace StregsystemController
         {
             IStregsystemHandler stregsystemHandler = new StregsystemHandler(_productsFilePath, _usersFilePath, _logFilePath);
             IStregsystemUI ui = new StregsystemCLI(stregsystemHandler);
-            IStregsystemCommandParser sc = new StregsystemCommandParser(stregsystemHandler, ui);
+            new StregsystemCommandParser(stregsystemHandler, ui);
             ui.Start();
         }
     }
