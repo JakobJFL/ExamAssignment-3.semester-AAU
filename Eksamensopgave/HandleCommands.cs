@@ -10,7 +10,7 @@ namespace StregsystemController
 {
     public class HandleCommands : IHandleCommands
     {
-        private Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
+        private readonly Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
 
         private IStregsystemHandler Stregsystem { get; }
         private IStregsystemUI StregsystemUI { get; }

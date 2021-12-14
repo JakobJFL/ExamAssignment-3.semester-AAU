@@ -37,14 +37,14 @@ namespace Stregsystem.Models
 
             return "[" + Username + "], " + firstnames + Lastname + ", Saldo: " + Balance + " kr.";
         }
-        private bool IsUsernameValid(string username)
+        private static bool IsUsernameValid(string username)
         {
             Regex rgx = new Regex(@"^[0-9&_&a-z]+$"); 
             return rgx.IsMatch(username);
         }
 
         //Kilde: https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
-        private bool IsValidEmail(string email) 
+        private static bool IsValidEmail(string email) 
         {
             if (email.Trim().EndsWith(".") || email.Trim().EndsWith("-"))
                 return false; 

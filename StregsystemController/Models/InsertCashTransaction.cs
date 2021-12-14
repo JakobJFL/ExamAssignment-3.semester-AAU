@@ -7,7 +7,7 @@ namespace Stregsystem.Models
     {
         public InsertCashTransaction(User user, decimal amount, int id)
         {
-            ID = ID;
+            ID = id;
             User = user;
             Amount = amount;
         }

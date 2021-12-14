@@ -9,7 +9,7 @@ namespace StregsystemController
 {
     public class StregsystemCommandParser : IStregsystemCommandParser
     {
-        private Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
+        private readonly Dictionary<string, Action<string[]>> _adminCommands = new Dictionary<string, Action<string[]>>();
         public IStregsystemHandler Stregsystem { get; }
         public IStregsystemUI StregsystemUI { get; }
         private HandleCommands Handle { get; }

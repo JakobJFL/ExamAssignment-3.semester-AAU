@@ -5,14 +5,14 @@ namespace Stregsystem.DataAccess
 {
     public class ParseData
     {
-        static private int _divideToGetDecimal = 100;
+        private static readonly int _divideToGetDecimal = 100;
         public static Product ParseProduct(string[] values, ProductFactory factory)
         {
             string name = values[1].Replace("\"", "");
             name = Regex.Replace(name, @"<\/? ?\w+ ?>", "");
             decimal price = decimal.Parse(values[2]) / _divideToGetDecimal;
             Product product = factory.CreateProduct(name, price);
-            product.Active = values[3] == "1" ? true : false;
+            product.Active = values[3] == "1";
             return product;
         }
         public static User ParseUser(string[] values, UserFactory factory)
