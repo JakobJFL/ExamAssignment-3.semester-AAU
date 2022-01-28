@@ -21,7 +21,6 @@ namespace Stregsystem.Models
             else
                 throw new ValidationException("Does not live up to requirements");
         }
-
         public int ID { get; }
         public string[] Firstnames { get; set; }
         public string Lastname { get; set; }
@@ -34,7 +33,6 @@ namespace Stregsystem.Models
             string firstnames = "";
             foreach (string fName in Firstnames)
                 firstnames += fName + " ";
-
             return "[" + Username + "], " + firstnames + Lastname + ", Saldo: " + Balance + " kr.";
         }
         private static bool IsUsernameValid(string username)

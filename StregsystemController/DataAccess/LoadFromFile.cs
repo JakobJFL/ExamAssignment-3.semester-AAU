@@ -9,7 +9,7 @@ using Stregsystem.Models;
 
 namespace Stregsystem.DataAccess
 {
-    public partial class LoadFromFile<T> : ILodeFromFile<T>
+    public class LoadFromFile<T> : ILodeFromFile<T>
     {
         public IStreamReader Reader { get; }
         public char SplitChar { get; }
